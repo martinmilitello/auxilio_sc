@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1> Descarga de Archivos</h1>
+
+    <div class="upload-div">
+        <!-- Form de upload Archivo  -->
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label>Seleccione los CSV Cabeceras y Detalles</label>
+            <input type="file" name="texto[]" id="fileInput" multiple >
+            <input type="submit" name="submit" value="UPLOAD"/>
+        </form>
+            
+        <!-- Display upload status -->
+        <div id="uploadStatus"></div>
+    </div>
+   
+</body>
+</html>
+<script>
+    $(document).ready(function(){
+        // File upload via Ajax
+        $("#uploadForm").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'upload.php',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function(){
+                    $('#uploadStatus').html('<img src="images/uploading.gif"/>');
+                },
+                error:function(){
+                    $('#uploadStatus').html('<span style="color:#EA4335;">Subir archivos al sitio falló trate nuevamente.<span>');
+                },
+                success: function(data){
+                    $('#uploadForm')[0].reset();
+                    $('#uploadStatus').html('<span style="color:#28A74B;">Archivos subidos correctamente.<span>');
+                    
+                }
+            });
+        });
+        
+        // Validacion del tipo de archivos para que solo pueda subir CSVs
+        $("#fileInput").change(function(){
+            var fileLength = this.files.length;
+            var match= ["text/csv","text/txt"];
+            var i;
+            for(i = 0; i < fileLength; i++){ 
+                var file = this.files[i];
+                var archivocsv = file.type;
+               
+                if(!((archivocsv==match[0]) || (archivocsv==match[1]) || (archivocsv==match[2]) || (archivocsv==match[3]))){
+                    alert('Por favor elija un archivo CSV válido (CSV).');
+                    $("#fileInput").val('');
+                    return false;
+                }
+            }
+        });
+    });
+    </script>

@@ -1,0 +1,43 @@
+*   Trying 190.210.195.40:443...
+* Connected to tiendas.axoft.com (190.210.195.40) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: D:\xampp\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; ST=Ciudad Autónoma de Buenos Aires; O=Axoft Argentina S.A.; CN=*.axoft.com
+*  start date: Aug  7 00:00:00 2023 GMT
+*  expire date: Sep  6 23:59:59 2024 GMT
+*  issuer: C=GB; ST=Greater Manchester; L=Salford; O=Sectigo Limited; CN=Sectigo RSA Organization Validation Secure Server CA
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x14f7ed82670)
+> GET /api/Aperture/Price?pageSize=500&pageNumber=1&filter=1 HTTP/2
+Host: tiendas.axoft.com
+accept: */*
+content-type: application/json
+content-length: 0
+authorization: Bearer f5zfd784-aa5z-45f7-a0e8-95165e4z0189_13145
+accesstoken: dez058cf-fz77-4f08-a068-772646z3af23_12542
+
+* old SSL session ID is stale, removing
+* Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+< HTTP/2 400 
+< cache-control: no-cache
+< pragma: no-cache
+< content-type: application/json; charset=utf-8
+< expires: -1
+< server: Microsoft-IIS/10.0
+< x-aspnet-version: 4.0.30319
+< x-powered-by: ASP.NET
+< access-control-allow-origin: *
+< date: Mon, 14 Aug 2023 23:09:10 GMT
+< content-length: 35
+* HTTP error before end of send, stop sending
+< 
+* Connection #0 to host tiendas.axoft.com left intact
