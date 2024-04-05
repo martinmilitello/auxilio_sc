@@ -4,7 +4,13 @@ import glob, os
 from datetime import datetime
 
 
-os.chdir('subidasz\\')
+os.chdir('salidas\\')
+for archivo in os.listdir():  
+            # Eliminar los archivos
+    os.remove(archivo)
+
+
+os.chdir('..\\subidasz\\')
 trabajo=os.getcwd()
 
 df_totalCabe = pd.DataFrame()
@@ -19,6 +25,7 @@ df_totalCabe = df_totalCabe.assign(TotalIVA2=987.15)
 df_totalCabe = df_totalCabe.assign(Zona='023')
 
 gastoadmi=2.9
+topeIva2 = 95000
 
 
 #-------------------------------------------
@@ -34,8 +41,12 @@ for archi in glob.glob("PSTD"+"*"+"cabecera.txt"):
     dfzonas = dfzonas.groupby("grupzonas")
     dfzonas = dfzonas.agg({"cod_cliente": "nunique"})
     #--------------- hasta archivo de zonas agrupadas
+
+    
     for estazona in dfzonas.index:
         os.chdir('salidas\\')
+        
+
         trabajo=os.getcwd()
         #--------------------- extrae cabeceras ok
         df_mascara=df_cabetxt["A"].str[0:3] ==estazona
@@ -50,14 +61,14 @@ for archi in glob.glob("PSTD"+"*"+"cabecera.txt"):
         vTotalIVA1=filtered_df['K'].sum()
        # vTotalIVA2=filtered_df['L'].sum()
 
-        vTotalIVA2 = filtered_df.loc[filtered_df['J'] > 90000, 'L'].sum()
+        vTotalIVA2 = filtered_df.loc[filtered_df['J'] > topeIva2, 'L'].sum()
 
         filtered_df.to_csv(r'Cabe'+str(qfecha)+str(estazona)+'SAP.txt', header=None, index=None, sep=';', mode='a')
 
         nueva_fila = { 'TotalImporte': vTotalImporte,'TotalIVA1': vTotalIVA1, 'TotalIVA2': vTotalIVA2, 'Zona':str(estazona)}
         # df_totalCabe = df_totalCabe.append(nueva_fila, ignore_index=True)
         df_totalCabe = pd.concat([df_totalCabe, pd.DataFrame([nueva_fila])], ignore_index=True)
-        
+        print(df_cabetxt)
         #--------------------- clientes ok
         trabajo=os.getcwd()
         os.chdir('..\\..\\subidasz\\')
@@ -106,16 +117,16 @@ for archi in glob.glob("PSTD"+"*"+"cabecera.txt"):
 trabajo=os.getcwd()
  
 '''
-writer = pd.ExcelWriter(r"totales_txt"+str(qfecha)+".xlsx")
+writer = pd.ExcelWriter(r"totales_txt_TopeIVA2"+str(qfecha)+".xlsx")
 df_totalCabe.to_excel(writer,'Hoja 1', index=False)
 writer.save()
 writer.close()
 '''
 
-writer = pd.ExcelWriter(r"totales_txt"+str(qfecha)+".xlsx")
+writer = pd.ExcelWriter(r"totales_txt_TopeIVA2"+str(qfecha)+".xlsx", mode='w')
 df_totalCabe.to_excel(writer,'Hoja 1', index=False)
 
 # Cierra el escritor para guardar el archivo Excel
 writer.close()  # Ya no es necesario usar writer.save()
 
-print(df_totalCabe)
+# print(df_totalCabe)

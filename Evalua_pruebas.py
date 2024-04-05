@@ -64,7 +64,7 @@ if len(sys.argv) == 3:
     eseme = int(pidom)
     anionu=int(esean)
 
-    mesperiodo = 3  # para poder traer planilla de meses anteriores
+    mesperiodo = 4 # para poder traer planilla de meses anteriores
     
     if mesperiodo != eseme:
          mesnu=int(eseme-1)

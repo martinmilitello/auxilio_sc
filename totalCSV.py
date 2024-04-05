@@ -62,4 +62,4 @@ for archi in glob.glob("*.csv"):
 
 dfx = pd.DataFrame(sale, columns=['zona', 'Total','Adic','fecha'])
 
-dfx.to_excel("totales_csv2"+elamd+".xlsx", index=False)
+dfx.to_excel("totales_csv2_1"+elamd+".xlsx", index=False)

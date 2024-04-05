@@ -44,7 +44,7 @@ if len(sys.argv) == 4:
     os.chdir('subidasx\\')
 
 
-    df = pd.read_excel(io = "totales_txt"+str(elamd)+".xlsx", sheet_name="Hoja 1", usecols=["PSTD","zona","laX"]) 
+    df = pd.read_excel(io = "totales_txt_Prueba"+str(elamd)+".xlsx", sheet_name="Hoja 1", usecols=["PSTD","zona","laX"]) 
 
     lax = df['laX']
     lax = df[lax == "X"]
@@ -59,7 +59,7 @@ if len(sys.argv) == 4:
     #pidoa='2022'
     #eseme = 6
     mesnu=int(eseme)
-    mesperiodo = 7  # RECORDAR QUE HAY QUE PONER EL PERIODO PARA PODER TOMAR ZONAS DEL MES ANTERIOR
+    mesperiodo = 3  # RECORDAR QUE HAY QUE PONER EL PERIODO PARA PODER TOMAR ZONAS DEL MES ANTERIOR
     
     if mesperiodo != mesnu:
          mesnu=mesnu-1
@@ -94,7 +94,11 @@ if len(sys.argv) == 4:
             for filename in glob.glob('C'+str(qfecha)+str(zonaeleg).rjust(5, '0')+'.csv'):
                 df_cabecsv = pd.read_csv(filename, index_col=None, header=0)
                 df_cabecsv=df_cabecsv['cod_cliente'].apply(lambda x: int(x/10))
-                df_jamon=(df_cabetxt.merge(df_cabecsv, on='cod_cliente', how='left', indicator=True).query('_merge == "left_only"').drop('_merge',1)) 
+                #df_jamon=(df_cabetxt.merge(df_cabecsv, on='cod_cliente', how='left', indicator=True).query('_merge == "left_only"').drop('_merge',1)) 
+                df_jamon = (df_cabetxt.merge(df_cabecsv, on='cod_cliente', how='left', indicator=True)
+                        .query('_merge == "left_only"')
+                        .drop('_merge', axis=1))
+                
                 # elimina por cliente en txt los que si en csv
                 
                                 
@@ -192,7 +196,7 @@ if len(sys.argv) == 4:
     (max_row, max_col) = dfx.shape  # siempre, para disponer de esos datos
     last_row=['Totales : ']+list(dfx.count())[1:2]+list(dfx.sum())[2:3]
     dfx2 = pd.DataFrame(data=[last_row], columns=dfx.columns)
-    dff = dfx.append(dfx2, ignore_index=True)
+    dff = pd.concat([dfx,dfx2], ignore_index=True)
     writer = pd.ExcelWriter(r"genero_"+elamd+".xlsx")
     dff.to_excel(writer,'Hoja 1', index=False, freeze_panes=(1,1))
     workbook  = writer.book
@@ -203,7 +207,7 @@ if len(sys.argv) == 4:
     worksheet.set_column(1, max_col, 4)     # zona
     worksheet.set_column(2, max_col, 17)    # suma X
     dff.to_excel(writer,'Hoja 1', index=False, freeze_panes=(1,1))
-    writer.save()
+    writer.close()
    
     # df_cachoclie = pd.concat(cachoclie, axis=0, ignore_index=True)
     saleclie.to_csv(r'Cli_fact_'+elamd+'.txt', header=None, index=None, sep=';', mode='a')
