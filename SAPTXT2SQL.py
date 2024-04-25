@@ -11,6 +11,7 @@ import urllib
 
 from sqlalchemy import delete
 from sqlalchemy import text
+from sqlalchemy import create_engine, text, inspect
 
 
 archi_cabe='PSTD20230602_030540Cabecera.txt'
@@ -77,9 +78,9 @@ print(df_cabe999)
 # Conexion a SQL Server
 params = urllib.parse.quote_plus("DRIVER={SQL Server Native Client 11.0};"
                                  "SERVER=LT00149\LT00149;"
-                                 "DATABASE=FacturacionTango;"
-                                 "UID=tincho666;"
-                                 "PWD=Inicio.01")
+                                 "DATABASE=bodysoul;"
+                                 
+                                 "Trusted_Connection=yes;")
 
 engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect={}".format(params))
 
@@ -88,9 +89,21 @@ tabla1 = text("DROP TABLE dbo.Cabe_SAP_TXT")
 tabla2 = text("DROP TABLE dbo.Deta_SAP_TXT")
 tabla3 = text("DROP TABLE dbo.Clie_SAP_TXT")
 
-result1 = engine.execute(tabla1)
-result2 = engine.execute(tabla2)
-result3 = engine.execute(tabla3)
+# Execute DROP TABLE statements using a connection
+with engine.connect() as connection:
+    inspector = inspect.engine_metadata(engine)
+    existing_tables = inspector.get_table_names()
+
+    if "dbo.Cabe_SAP_TXT" in existing_tables:
+        connection.execute(text("DROP TABLE dbo.Cabe_SAP_TXT"))
+    if "dbo.Deta_SAP_TXT" in existing_tables:
+        connection.execute(text("DROP TABLE dbo.Deta_SAP_TXT"))
+    if "dbo.Clie_SAP_TXT" in existing_tables:
+        connection.execute(text("DROP TABLE dbo.Clie_SAP_TXT"))
+
+# result1 = engine.execute(tabla1)
+# result2 = engine.execute(tabla2)
+# result3 = engine.execute(tabla3)
 
 #Guardo en SQLServer
 df_cabetxt.to_sql('Cabe_SAP_TXT', con=engine, if_exists='append')
