@@ -13,7 +13,7 @@ if len(sys.argv) == 4:
     mizona = sys.argv[3] # Zona
     # mipathpos = sys.argv[4] # "//dc10004/InterfacesSAP/INTPEDIDOS/"
     fijo = "00"
-    zonasalida = int(mizona) + 2
+    zonasalida = int(mizona) + 1
     lalon1=len(mifecha)
     lalon2=len(mizona)
     zonasalida = str(zonasalida)
@@ -58,7 +58,9 @@ if len(sys.argv) == 4:
 
     cabe_df_not=cabe_df[~cabe_df.cod_cliente.isin(demapas_df.cod_cliente)]
     cabe_df_in=cabe_df[cabe_df.cod_cliente.isin(demapas_df.cod_cliente)]
- 
+    # Pongo la zona en los divididos 
+    cabe_df_in['zona']=zonasalida
+    
     # deta_df_not=deta_df[~deta_df.revend.isin(demapas_df.cod_cliente)]
     deta_df_not=deta_df[deta_df.n_comp.isin(cabe_df_not.n_comp)]
     #deta_df_in=deta_df[deta_df.revend.isin(demapas_df.cod_cliente)]
@@ -127,12 +129,17 @@ if len(sys.argv) == 4:
 
     deta_df_type=deta_df.dtypes
     cli_df_type=cli_df.dtypes
-    # print(cli_df_type)
+    # Pongo la zona de los divididos en Clientes
+    cli_df['codcliente'] = cli_df['codcliente'].astype(int).astype(str)
+    cabe_df_in['cod_cliente'] = cabe_df_in['cod_cliente'].astype(int).astype(str)
 
-    cabe_in_salida= rutasubida + "C" + mifecha + "_IN" + mizona + ".csv"
-    deta_in_salida= rutasubida + "D" + mifecha + "_IN" + mizona + ".csv"
-    cabe_not_salida= rutasubida + "C" + mifecha + "_NOT" + mizona + ".csv"
-    deta_not_salida= rutasubida  + "D" + mifecha + "_NOT" + mizona + ".csv"
+    merged_df = cli_df.merge(cabe_df_in[['cod_cliente', 'zona']], how='left', left_on='codcliente', right_on='cod_cliente')
+    cli_df['zona'] = merged_df['zona_y'].fillna(cli_df['zona'].astype(int)).astype(int)
+    print(cli_df)
+    cabe_in_salida= rutasubida + "C" + mifecha + "_IN_" + mizona + ".csv"
+    deta_in_salida= rutasubida + "D" + mifecha + "_IN_" + mizona + ".csv"
+    cabe_not_salida= rutasubida + "C" + mifecha + "_NOT_" + mizona + ".csv"
+    deta_not_salida= rutasubida  + "D" + mifecha + "_NOT_" + mizona + ".csv"
     cli_salida=  rutasubida + "CLI" + mifecha + "_" + mizona + "Cruzados.csv"
     
     #print(deta_df_not)
