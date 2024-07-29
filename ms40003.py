@@ -16,17 +16,18 @@ import csv
 
 
 from bd import conexion   # bd_violettaprd
-
-fecha = '20240705' # solo se ingresa la fecha 
-
+###### Datos a ingresar 
+fecha = '20240726' # Se ingresa la fecha 
+diaDesde = '23' # El día desde que se comienza la busqueda de la facturacion a Tango
+######
 fecha_dt = datetime.strptime(fecha, '%Y%m%d')
 anio=fecha[:4]
 mes=fecha[4:6]
 dia=fecha[6:]
 zona = '704'
-# fdesde = "'20240701'"
-# fhasta = "'20240705'"
-fdesde = f"'{anio}{mes}01'"
+# fdesde = "'20240720'"
+# fhasta = "'20240726'"
+fdesde = f"'{anio}{mes}{diaDesde}'"
 fhasta_dt = fecha_dt - timedelta(days=4)
 fhasta = f"'{fecha}'"
 
@@ -42,7 +43,7 @@ try:
         df_cabe = pd.read_sql_query(consultaR, conexion)
         
         df_cabe_1 = df_cabe
-
+        print (df_cabe_1)
         os.chdir('zona703\\')
 
       
