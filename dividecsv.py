@@ -16,7 +16,7 @@ if len(sys.argv) == 4:
     zonasalida = int(mizona) + 1
     lalon1=len(mifecha)
     lalon2=len(mizona)
-    zonasalida = str(zonasalida)
+    zonasalida = str(zonasalida).zfill(3)
     rutasubida = "subidas\\"   # 
    # print("La ruta tal vez este mal")
     cabenombrearchivo = rutasubida + "C" + mifecha + fijo + mizona + ".csv"
@@ -125,7 +125,7 @@ if len(sys.argv) == 4:
     cli_df.codpost=cli_df.codpost.fillna(0).astype(int)
     cli_df.telefono=cli_df.telefono.fillna(0).astype('int64')
     cli_df.cat_Iva=cli_df.cat_Iva.astype(int)
-    cli_df.nucuil=cli_df.nucuil.fillna(0).astype(int)
+    # cli_df.nucuil=cli_df.nucuil.fillna(0).astype(int)
 
     deta_df_type=deta_df.dtypes
     cli_df_type=cli_df.dtypes

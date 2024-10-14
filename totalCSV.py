@@ -54,14 +54,14 @@ for archi in glob.glob("*.csv"):
 
          Adic = df['bonifivadic'].sum()
 
-         Montib = df['montib'].sum()
+        # Montib = df['montib'].sum()
 
          fecha=df['fecha_emision'].max()
 
-         sale.append([mizo,Total,Adic,Montib,fecha])
+         sale.append([mizo,Total,Adic,fecha]) #montib
 
  
 
-dfx = pd.DataFrame(sale, columns=['zona', 'Total','Adic','Montib','fecha'])
+dfx = pd.DataFrame(sale, columns=['zona', 'Total','Adic','fecha'])  #'Montib'
 
 dfx.to_excel("totales_csv2_1"+elamd+".xlsx", index=False)

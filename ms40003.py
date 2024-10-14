@@ -17,8 +17,8 @@ import csv
 
 from bd import conexion   # bd_violettaprd
 ###### Datos a ingresar 
-fecha = '20240726' # Se ingresa la fecha 
-diaDesde = '23' # El día desde que se comienza la busqueda de la facturacion a Tango
+fecha = '20240927' # Se ingresa la fecha 
+diaDesde = '20' # El día desde que se comienza la busqueda de la facturacion a Tango
 ######
 fecha_dt = datetime.strptime(fecha, '%Y%m%d')
 anio=fecha[:4]

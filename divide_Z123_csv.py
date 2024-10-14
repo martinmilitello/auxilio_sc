@@ -126,7 +126,7 @@ if len(sys.argv) == 4:
     cli_df.codpost=cli_df.codpost.fillna(0).astype(int)
     cli_df.telefono=cli_df.telefono.fillna(0).astype('int64')
     cli_df.cat_Iva=cli_df.cat_Iva.astype(int)
-    cli_df.nucuil=cli_df.nucuil.fillna(0).astype(int)
+    cli_df.nucuil=cli_df.nucuil.fillna(0)
 
     deta_df_type=deta_df.dtypes
     cli_df_type=cli_df.dtypes

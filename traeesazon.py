@@ -23,7 +23,7 @@ eldi=(f'{now.day:02}')
 #eldi='24'      # si proceso al otro dia informar fecha del excel hardcodeando o cambiar nombre a excel
 elme=(f'{now.month:02}')
 elan=str(now.year)
-elamd=elan+elme+eldi
+
 lahor=datetime.now().strftime('%Y-%m-%d %H%M%S')
 lahor=lahor[11:20]
 
@@ -41,9 +41,13 @@ if len(sys.argv) == 4:
     eseme = sys.argv[2] # Mes de los archivos CSV
     qzoquie = sys.argv[3] # ZONA 995 CSV
     
+
+    eldi='31'
+    elamd=pidoa+eseme+eldi
+
     os.chdir('subidasx\\')
 
-
+ 
     df = pd.read_excel(io = "totales_txt_Prueba"+str(elamd)+".xlsx", sheet_name="Hoja 1", usecols=["PSTD","zona","laX"]) 
 
     lax = df['laX']
@@ -59,7 +63,7 @@ if len(sys.argv) == 4:
     #pidoa='2022'
     #eseme = 6
     mesnu=int(eseme)
-    mesperiodo = 3  # RECORDAR QUE HAY QUE PONER EL PERIODO PARA PODER TOMAR ZONAS DEL MES ANTERIOR
+    mesperiodo = 7  # RECORDAR QUE HAY QUE PONER EL PERIODO PARA PODER TOMAR ZONAS DEL MES ANTERIOR
     
     if mesperiodo != mesnu:
          mesnu=mesnu-1
