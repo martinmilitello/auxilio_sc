@@ -2,7 +2,8 @@ import pandas as pd
 import glob, os
 
 # Directorio donde se encuentran los archivos Excel
-directorio = "C:\\Bancos\\electronico\\"
+directorio = "C:\\Bancos\\NACION_KARINA\\"
+
 
 # Obtener el último componente de la ruta (el nombre del directorio)
 nombre_directorio = directorio.split("\\")[2]
